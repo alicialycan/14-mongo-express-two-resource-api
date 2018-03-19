@@ -1,0 +1,25 @@
+{
+  "name": "14-mongo-express-two-resource-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alicialycan/14-mongo-express-two-resource-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alicialycan/14-mongo-express-two-resource-api/issues"
+  },
+  "homepage": "https://github.com/alicialycan/14-mongo-express-two-resource-api#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "http-errors": "^1.6.2",
+    "mongoose": "^5.0.10"
+  }
+}
