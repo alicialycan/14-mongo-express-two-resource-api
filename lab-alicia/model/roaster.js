@@ -2,36 +2,48 @@
 
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const createError = require('http-errors');
 const Coffee = require('./coffee.js');
 
-const roasterSchema = new Schema ({
-    name: { type: String, required: true },
-    // email: { type: String, pattern: '@mongodb\.com$', required: true, unique: true },
-    phone: { type: String, required: true, unique: true },
-    coffeeReq: {type: String, required: true}
+const roasterSchema = Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    timestamp: {
+        type: Date,
+        required: true
+    },
+    coffees: [{
+        type: Schema.Types.ObjectId,
+        ref: 'coffee'
+    }]
 });
-
-// Roaster.findByIdAndAddCoffee = (id, coffee) => {
-//     return Roaster.findById(id)
-//     .catch(err => Promise.reject(createError(400, err.message)))
-//     .then(coffee => {
-//         coffee.coffeeReq = coffee.id;
-//         this.valCoffee = coffee;
-//         return new Coffee(coffee).save();
-//     })
-//     .then(coffee => {
-//         this.valCoffee.coffees.push(coffee.id);
-//         this.valCoffee.save();
-//         this.valCoffee = coffee;
-//     })
-//     .then(() => this.valCoffee);
-// }
-
-// Roaster.methods.findByIdAndAddCoffee = () => {
-//     return Roaster.findById(id)
-//     return Coffee.find({coffeeReq: this.id});
-// };
 
 const Roaster = mongoose.model('roaster', roasterSchema);
 
 module.exports = Roaster;
+
+Roaster.findByIdAndAddCoffee = (id, coffee) => {
+
+    return Roaster.findById(id)
+        .catch( err => Promise.reject(createError(404, err.message)))
+        .then( roaster => {
+            coffee.roasterID = roaster.id;
+            this.tempRoaster = roaster;
+            return new Coffee(coffee).save();
+        })
+        .then( coffee => {
+            this.tempRoaster.coffees.push(coffee.id);
+            this.tempCoffee = coffee;
+            return this.tempRoaster.save();
+        })
+        .then(() => {
+            return this.tempCoffee;
+        })
+};

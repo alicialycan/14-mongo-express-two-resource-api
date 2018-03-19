@@ -6,10 +6,11 @@ const Roaster = require('./roaster.js');
 
 mongoose.connect('mongodb://localhost/coffees');
 
-const coffeeSchema = new Schema ({
+const coffeeSchema = Schema ({
     origin: { type: String, required: true, unique: true },
-    roast: [{ type: mongoose.Schema.Types.ObjectId, ref: 'roaster' }],
+    roast: { type: String, required: true },
     cost: { type: Number, required: true },
+    roasterID: { type: Schema.Types.ObjectId, required: true }
 });
 
 const Coffee = mongoose.model('coffee', coffeeSchema);
